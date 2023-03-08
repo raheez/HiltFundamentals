@@ -21,5 +21,8 @@ class MainViewModel @Inject constructor(private val cryptoCurrencyRepo: CryptoCu
         cryptocurrencyEmitter.value = cryptoCurrencyRepo.getCryptoCurrency()
     }
 
+    private fun addCrypto() {
+    }
+
 
 }

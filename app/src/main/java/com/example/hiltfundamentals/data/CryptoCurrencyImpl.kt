@@ -1,6 +1,6 @@
-package com.example.hiltfundamentals.domain
+package com.example.hiltfundamentals.data
 
-import com.example.hiltfundamentals.data.Cryptocurrency
+import com.example.hiltfundamentals.domain.CryptoCurrencyRepo
 
 class CryptoCurrencyImpl : CryptoCurrencyRepo {
     override fun getCryptoCurrency() = listOf(
@@ -33,5 +33,14 @@ class CryptoCurrencyImpl : CryptoCurrencyRepo {
             "Polkadot"
         ),
     )
+
+    override fun addMoreCryptoCurrency(): Cryptocurrency {
+       val mNewCrypto= Cryptocurrency(
+           "https://upload.wikimedia.org/wikipedia/commons/5/56/Stellar_Symbol.png",
+            "New"
+        )
+
+        return mNewCrypto
+    }
 
 }
