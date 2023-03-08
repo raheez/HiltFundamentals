@@ -19,6 +19,7 @@ import dagger.hilt.android.scopes.FragmentScoped
 import dagger.hilt.android.scopes.ViewScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @AndroidEntryPoint
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
 
 //        observeCryptoCurrency()
+        println(mSomething.performActionOne())
         println(mSomething.performActionTwo())
 
     }
@@ -53,33 +55,53 @@ class MainActivity : AppCompatActivity() {
 }
 
 @ActivityScoped
-class SomethingTwo @Inject constructor(val someInterfaceImpl: TestInterface)  {
+class SomethingTwo @Inject constructor(val one: TestInterface, val two: TestInterface) {
+    fun performActionOne(): String {
+        return "hello " + one.performFunctions()
+    }
+
     fun performActionTwo(): String {
-        return "hello "+ someInterfaceImpl.performFunctions()
+        return "hello " + two.performFunctions()
     }
 }
 
-class SomeInterfaceImpl @Inject constructor () : TestInterface{
+class SomeInterfaceImpl1 @Inject constructor() : TestInterface {
     override fun performFunctions(): String {
-        return "interface implemented"
+        return "interface one  implemented"
     }
 }
 
-interface TestInterface{
-    fun performFunctions() :String
+class SomeInterfaceImpl2 @Inject constructor() : TestInterface {
+    override fun performFunctions(): String {
+        return "interface two implemented"
+    }
 }
 
-
-
-
-
+interface TestInterface {
+    fun performFunctions(): String
+}
 
 
 @Module
 @InstallIn(ActivityComponent::class)
- class MyModule{
+class MyModule {
 
-     @Provides
-     @ActivityScoped
-     fun getInterfaceDetails():TestInterface  = SomeInterfaceImpl()
+    @Impl1
+    @Provides
+    @ActivityScoped
+    fun getInterfaceDetails(): TestInterface = SomeInterfaceImpl2()
+
+    @Impl2
+    @Provides
+    @ActivityScoped
+    fun getInterfaceDetailss(): TestInterface = SomeInterfaceImpl1()
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Impl1
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Impl2
+
