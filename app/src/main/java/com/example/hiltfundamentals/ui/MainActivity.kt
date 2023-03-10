@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 }
 
 @ActivityScoped
-class SomethingTwo @Inject constructor(val one: TestInterface, val two: TestInterface) {
+class SomethingTwo @Inject constructor(@Impl1 val one: TestInterface,@Impl2 val two: TestInterface) {
     fun performActionOne(): String {
         return "hello " + one.performFunctions()
     }
@@ -89,12 +89,12 @@ class MyModule {
     @Impl1
     @Provides
     @ActivityScoped
-    fun getInterfaceDetails(): TestInterface = SomeInterfaceImpl2()
+    fun getInterfaceDetails(): TestInterface = SomeInterfaceImpl1()
 
     @Impl2
     @Provides
     @ActivityScoped
-    fun getInterfaceDetailss(): TestInterface = SomeInterfaceImpl1()
+    fun getInterfaceDetailss(): TestInterface = SomeInterfaceImpl2()
 }
 
 @Qualifier
